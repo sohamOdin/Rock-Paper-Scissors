@@ -31,7 +31,7 @@ function getComputerChoice(){
 }
 
 function getHumanChoice(){
-    let humanChoice = prompt("Enter your choice");
+    let humanChoice = prompt("Enter your choice:-(Rock,Paper,Scissors)");
     return humanChoice.toLowerCase();
 }
 
