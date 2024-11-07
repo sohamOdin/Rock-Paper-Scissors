@@ -1,22 +1,42 @@
 let humanScore = 0,compScore = 0;
-let currentRound = 0;
+let totalRounds = 0;
+let p = document.querySelector("p");
+p.textContent = "Play 5 rounds";
+let roundLog = document.querySelector("span");
+roundLog.textContent =`Turn ${totalRounds}`;
 
-while(currentRound<5){
-    let compMove = getComputerChoice();
-    let humanMove = getHumanChoice();
-    playRound(compMove,humanMove);
-    console.log("Round "+currentRound);
-    console.log("Human:- " + humanScore);
-    console.log("Computer:-" + compScore);
-    currentRound++;
-}
+let reset = document.querySelector("#reset");
+reset.addEventListener('click',()=>{
+    p.textContent = "Play 5 rounds";
+    totalRounds = 0;
+    compScore = 0;
+    humanScore = 0;
+    roundLog.textContent = `Turn ${totalRounds}`;
+    p.style.backgroundColor = "";
+})
 
-if(humanScore > compScore){
-    alert("You have won the Game");
-}else if(humanScore === compScore){
-    alert("It's a tie between computer and you!");
-}else{
-    alert("Computer has won the game");
+function winner(){
+    totalRounds = 0;
+    roundLog.textContent =`Turn ${totalRounds}`;
+    if(humanScore > compScore){
+        p.textContent =  "You have won this Round!, Reset to play another Round";
+        p.style.backgroundColor = "red";
+        alert("You have won this Round!");
+        humanScore = 0;
+        compScore = 0;
+    }else if(humanScore === compScore){
+        p.textContent = "It's a tie between computer and you,Reset!";
+        p.style.backgroundColor = "green";
+        alert("It's a tie between you and computer in this Round!");
+        humanScore = 0;
+        compScore = 0;
+    }else{
+        p.textContent = "Computer has won this Round!, Reset to play another Round";
+        p.style.backgroundColor = "blue";
+        alert("Computer has won this Round!");
+        humanScore = 0;
+        compScore = 0;
+    }
 }
 
 function getComputerChoice(){
@@ -30,41 +50,63 @@ function getComputerChoice(){
     }
 }
 
-function getHumanChoice(){
-    let humanChoice = prompt("Enter your choice:-(Rock,Paper,Scissors)");
-    return humanChoice.toLowerCase();
-}
+const rock = document.querySelector("#rock");
+rock.addEventListener('click',(e)=>{
+    playRound(getComputerChoice(),"rock");
+    roundLog.textContent =`Turn ${++totalRounds}`;
+    if(totalRounds==5) {
+        winner();
+    }
+});
+
+const paper = document.querySelector("#paper");
+paper.addEventListener('click',(e)=>{
+    playRound(getComputerChoice(),"paper");
+    roundLog.textContent =`Turn ${++totalRounds}`;
+    if(totalRounds==5){
+        winner()
+    }
+});
+
+const scissors = document.querySelector("#scissors");
+scissors.addEventListener('click',(e)=>{
+    playRound(getComputerChoice(),"scissors");
+    roundLog.textContent =`Turn ${++totalRounds}`;
+    if(totalRounds==5){
+        winner();
+    }
+});
 
 function playRound(compMove,humanMove){
     if(compMove==="rock"){
         if(humanMove==="scissors"){
             compScore++;
-            console.log("Computer won!,as rock beats scissors");
+            p.textContent = ("Computer wins ,as rock beats scissors");
         }else if(humanMove==="paper"){
             humanScore++;
-            console.log("Human won!,as paper beats Rock");
+            p.textContent = ("Human wins ,as paper beats Rock");
         }else if( humanMove==="rock") {
-            console.log("Tie!");
+            p.textContent = ("Tie!");
         }
     }else if(compMove==="paper"){
         if(humanMove==="scissors") {
             humanScore++;
-            console.log("Human won!,as scissors beat paper")
+            p.textContent = ("Human wins ,as scissors beat paper")
         }else if(humanMove==="rock"){
             compScore++;
-            console.log("Computer won!,as paper beats rock");
+            p.textContent = ("Computer wins ,as paper beats rock");
         }else {
-            console.log("Tie!");
+            p.textContent = ("Tie!");
         }
-    }else{//if compMove is scissors
+    }else if(compMove==="scissors"){
         if(humanMove==="rock"){
             humanScore++;
-            console.log("Human won!,as rock beats scissors")
-        }else if(humanMove = "paper"){
+            p.textContent = ("Human wins ,as rock beats scissors")
+        }else if(humanMove === "paper"){
             compScore++;
-            console.log("Computer won!,as scissors beat paper");
-        }else{
-            console.log("Tie!");
+            p.textContent = ("Computer wins ,as scissors beat paper");
+        }else if(humanMove==="scissors"){
+            p.textContent = ("Tie!");
         }
     }
 }
