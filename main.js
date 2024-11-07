@@ -2,10 +2,91 @@ let humanScore = 0,compScore = 0;
 let totalRounds = 0;
 let p = document.querySelector("p");
 p.textContent = "Play 5 rounds";
+let div = document.querySelector("div");
+div.innerText = `Computer Score ${compScore} Human Score ${humanScore}`;
 let roundLog = document.querySelector("span");
 roundLog.textContent =`Turn ${totalRounds}`;
-
 let reset = document.querySelector("#reset");
+
+function getComputerChoice(){
+    let compChoice = Math.floor(Math.random() * 10)+1;
+    if(compChoice > 0 && compChoice<=4){
+        return "rock";
+    }else if(compChoice > 4 && compChoice<8){
+        return "paper";
+    }else {
+        return "scissors";
+    }
+}
+
+const rock = document.querySelector("#rock");
+rock.addEventListener('click',(e)=>{
+    playRound(getComputerChoice(),"rock");
+    totalRounds++;
+    roundLog.textContent =`Turn ${totalRounds}`;
+    div.innerText = `Computer Score ${compScore} Human Score ${humanScore}`;
+    if(totalRounds==5) {
+        setTimeout(winner,500);
+    }
+});
+
+const paper = document.querySelector("#paper");
+paper.addEventListener('click',(e)=>{
+    playRound(getComputerChoice(),"paper");
+    totalRounds++;
+    roundLog.textContent =`Turn ${totalRounds}`;
+    div.innerText = `Computer Score ${compScore} Human Score ${humanScore}`;
+    if(totalRounds==5){
+        setTimeout(winner,500);
+    }
+});
+
+const scissors = document.querySelector("#scissors");
+scissors.addEventListener('click',(e)=>{
+    playRound(getComputerChoice(),"scissors");
+    totalRounds++;
+    roundLog.textContent =`Turn ${totalRounds}`;
+    div.innerText = `Computer Score ${compScore} Human Score ${humanScore}`;
+    if(totalRounds==5){
+        setTimeout(winner,500);
+    }
+});
+
+function playRound(compMove,humanMove){
+    if(compMove==="rock"){
+        if(humanMove==="scissors"){
+            ++compScore;
+            p.textContent = ("Computer wins ,as rock beats scissors");
+        }else if(humanMove==="paper"){
+            ++humanScore;
+            p.textContent = ("Human wins ,as paper beats Rock");
+        }else if( humanMove==="rock") {
+            p.textContent = ("Tie!");
+        }
+    }else if(compMove==="paper"){
+        if(humanMove==="scissors") {
+            ++humanScore;
+            p.textContent = ("Human wins ,as scissors beat paper")
+        }else if(humanMove==="rock"){
+            ++compScore;
+            p.textContent = ("Computer wins ,as paper beats rock");
+        }else {
+            p.textContent = ("Tie!");
+        }
+    }else if(compMove==="scissors"){
+        if(humanMove==="rock"){
+            ++humanScore;
+            p.textContent = ("Human wins ,as rock beats scissors")
+        }else if(humanMove === "paper"){
+            ++compScore;
+            p.textContent = ("Computer wins ,as scissors beat paper");
+        }else if(humanMove==="scissors"){
+            p.textContent = ("Tie!");
+        }
+    }
+    div.innerText = `Computer Score ${compScore} Human Score ${humanScore}`;
+}
+
 reset.addEventListener('click',()=>{
     p.textContent = "Play 5 rounds";
     totalRounds = 0;
@@ -13,6 +94,7 @@ reset.addEventListener('click',()=>{
     humanScore = 0;
     roundLog.textContent = `Turn ${totalRounds}`;
     p.style.backgroundColor = "";
+    div.innerText = `Computer Score ${compScore} Human Score ${humanScore}`;
     rock.disabled = false;
     paper.disabled = false;
     scissors.disabled = false;
@@ -37,79 +119,4 @@ function winner(){
     rock.disabled = true;
     paper.disabled = true;
     scissors.disabled = true;
-}
-
-function getComputerChoice(){
-    let compChoice = Math.floor(Math.random() * 10)+1;
-    if(compChoice > 0 && compChoice<=4){
-        return "rock";
-    }else if(compChoice > 4 && compChoice<8){
-        return "paper";
-    }else {
-        return "scissors";
-    }
-}
-
-const rock = document.querySelector("#rock");
-rock.addEventListener('click',(e)=>{
-    playRound(getComputerChoice(),"rock");
-    totalRounds++;
-    roundLog.textContent =`Turn ${totalRounds}`;
-    if(totalRounds==5) {
-        setTimeout(winner,500);
-    }
-});
-
-const paper = document.querySelector("#paper");
-paper.addEventListener('click',(e)=>{
-    playRound(getComputerChoice(),"paper");
-    totalRounds++;
-    roundLog.textContent =`Turn ${totalRounds}`;
-    if(totalRounds==5){
-        setTimeout(winner,500);
-    }
-});
-
-const scissors = document.querySelector("#scissors");
-scissors.addEventListener('click',(e)=>{
-    playRound(getComputerChoice(),"scissors");
-    totalRounds++;
-    roundLog.textContent =`Turn ${totalRounds}`;
-    if(totalRounds==5){
-        setTimeout(winner,500);
-    }
-});
-
-function playRound(compMove,humanMove){
-    if(compMove==="rock"){
-        if(humanMove==="scissors"){
-            compScore++;
-            p.textContent = ("Computer wins ,as rock beats scissors");
-        }else if(humanMove==="paper"){
-            humanScore++;
-            p.textContent = ("Human wins ,as paper beats Rock");
-        }else if( humanMove==="rock") {
-            p.textContent = ("Tie!");
-        }
-    }else if(compMove==="paper"){
-        if(humanMove==="scissors") {
-            humanScore++;
-            p.textContent = ("Human wins ,as scissors beat paper")
-        }else if(humanMove==="rock"){
-            compScore++;
-            p.textContent = ("Computer wins ,as paper beats rock");
-        }else {
-            p.textContent = ("Tie!");
-        }
-    }else if(compMove==="scissors"){
-        if(humanMove==="rock"){
-            humanScore++;
-            p.textContent = ("Human wins ,as rock beats scissors")
-        }else if(humanMove === "paper"){
-            compScore++;
-            p.textContent = ("Computer wins ,as scissors beat paper");
-        }else if(humanMove==="scissors"){
-            p.textContent = ("Tie!");
-        }
-    }
 }
