@@ -13,7 +13,10 @@ reset.addEventListener('click',()=>{
     humanScore = 0;
     roundLog.textContent = `Turn ${totalRounds}`;
     p.style.backgroundColor = "";
-})
+    rock.disabled = false;
+    paper.disabled = false;
+    scissors.disabled = false;
+});
 
 function winner(){
     totalRounds = 0;
@@ -22,21 +25,18 @@ function winner(){
         p.textContent =  "You have won this Round!, Reset to play another Round";
         p.style.backgroundColor = "red";
         alert("You have won this Round!");
-        humanScore = 0;
-        compScore = 0;
     }else if(humanScore === compScore){
         p.textContent = "It's a tie between computer and you,Reset!";
         p.style.backgroundColor = "green";
         alert("It's a tie between you and computer in this Round!");
-        humanScore = 0;
-        compScore = 0;
     }else{
         p.textContent = "Computer has won this Round!, Reset to play another Round";
         p.style.backgroundColor = "blue";
         alert("Computer has won this Round!");
-        humanScore = 0;
-        compScore = 0;
     }
+    rock.disabled = true;
+    paper.disabled = true;
+    scissors.disabled = true;
 }
 
 function getComputerChoice(){
@@ -53,27 +53,30 @@ function getComputerChoice(){
 const rock = document.querySelector("#rock");
 rock.addEventListener('click',(e)=>{
     playRound(getComputerChoice(),"rock");
-    roundLog.textContent =`Turn ${++totalRounds}`;
+    totalRounds++;
+    roundLog.textContent =`Turn ${totalRounds}`;
     if(totalRounds==5) {
-        winner();
+        setTimeout(winner,500);
     }
 });
 
 const paper = document.querySelector("#paper");
 paper.addEventListener('click',(e)=>{
     playRound(getComputerChoice(),"paper");
-    roundLog.textContent =`Turn ${++totalRounds}`;
+    totalRounds++;
+    roundLog.textContent =`Turn ${totalRounds}`;
     if(totalRounds==5){
-        winner()
+        setTimeout(winner,500);
     }
 });
 
 const scissors = document.querySelector("#scissors");
 scissors.addEventListener('click',(e)=>{
     playRound(getComputerChoice(),"scissors");
-    roundLog.textContent =`Turn ${++totalRounds}`;
+    totalRounds++;
+    roundLog.textContent =`Turn ${totalRounds}`;
     if(totalRounds==5){
-        winner();
+        setTimeout(winner,500);
     }
 });
 
